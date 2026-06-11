@@ -9,12 +9,12 @@ import { Toaster } from 'sonner'
 const queryClient = new QueryClient;
 
 createRoot(document.getElementById('root')!).render(
-  // <StrictMode>
+  <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Toaster position='top-center' toastOptions={{duration: 1000}}/>
         <App />
       </BrowserRouter>
     </QueryClientProvider>
-  // </StrictMode>,
+  </StrictMode>
 )

@@ -55,7 +55,7 @@ export default function App() {
   )
 }
 
-function CheckToken({ children }) {
+function CheckToken({ children }: { children: React.ReactNode }) {
   const token = sessionStorage.getItem("token");
   return token ? children : <Navigate to="/login" />
 }

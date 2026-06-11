@@ -127,7 +127,7 @@ export default function MatchCreate() {
         }
     }, [pid]);
 
-    const sendScore = (aScore, bScore, aSetScore, bSetScore) => {
+    const sendScore = (aScore: number, bScore: number, aSetScore: number, bSetScore: number) => {
         socket.current?.emit('updateScore', {
             pid: String(pid),
             score: {aScore, bScore, aSetScore, bSetScore}

@@ -13,9 +13,17 @@ interface users {
     role: string
 }
 
+interface PlanFormData {
+    name: string;
+    date: string;
+    time: string;
+    fid: string;
+    uid: string[];
+  }
+
 export default function PlanCreate() {
     const { gid } = useParams();
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm<PlanFormData>();
     const navigate = useNavigate();
 
     const [
@@ -41,9 +49,7 @@ export default function PlanCreate() {
     })
 
     const { mutate } = useMutation({
-        mutationFn: async (data) => {
-            console.log(data);
-
+        mutationFn: async (data: PlanFormData) => {
             const response = await api.post(`/groups/${gid}/create`, data);
             return response.data;
         },
@@ -56,7 +62,7 @@ export default function PlanCreate() {
         }
     })
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data: PlanFormData) => {
         mutate(data);
     }
     

@@ -51,6 +51,7 @@ export default function FieldDetail() {
 
     if (isLoading) return <Loading />
     if (isError) return <div className="p-4 text-sm text-red-400">오류가 발생했습니다.</div>
+    if (!data) return null;
 
     return (
         <div className="p-4 md:p-8 md:py-20 space-y-5">
@@ -156,7 +157,6 @@ export default function FieldDetail() {
                     </div>
                 ) : <p className="text-sm text-slate-300">모임 데이터를 불러오지 못했어요</p>
             )}
-
         </div>
     )
 }

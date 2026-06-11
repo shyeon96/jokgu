@@ -1,6 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
 import api from "../api/axios";
-import type { ApiResponse, GroupList } from "../types";
+import type { GroupList } from "../types";
 import Loading from "./Loading";
 import { Link, useNavigate } from "react-router-dom";
 import { CalendarPlus, Clock, ExternalLink, ChevronRight, Users, Map } from "lucide-react";
@@ -86,7 +86,7 @@ export default function Main() {
 
                         {todayLoading ? (
                             <Loading />
-                        ) : todayPlan.length !== 0 ? (
+                        ) : todayPlan && todayPlan.length !== 0 ? (
                             <div className="space-y-2">
                                 {todayPlan.map((plan) => (
                                     <Link key={plan.pid} to={`/plans/${plan.pid}`}
@@ -125,7 +125,7 @@ export default function Main() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {managingLoading ? (
                                 <Loading />
-                            ) : manageGroup.length !== 0 ? (
+                            ) : manageGroup && manageGroup.length !== 0 ? (
                                 manageGroup.map((group) => (
                                     <Link to={`/groups/${group.gid}`} key={group.gid}
                                         className="group flex items-center justify-between bg-white border border-slate-100 hover:border-blue-100 rounded-xl p-3.5 transition-all duration-300 shadow-sm hover:shadow-md" >
@@ -179,7 +179,7 @@ export default function Main() {
                         <div className="space-y-2 max-h-60 overflow-y-auto">
                             {groupLoading ? (
                                 <Loading />
-                            ) : groups.length !== 0 ? (
+                            ) : groups && groups.length !== 0 ? (
                                 groups.map((group) => (
                                     <button key={group.gid} onClick={() => { setIsOpen(false); navigate(`/groups/${group.gid}/create`); }}
                                         className="w-full flex items-center justify-between gap-3 p-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200 text-left cursor-pointer">

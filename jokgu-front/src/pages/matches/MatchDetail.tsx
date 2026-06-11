@@ -11,8 +11,6 @@ export default function MatchDetail() {
         queryKey: ['matchDetail', mid],
         queryFn: async () => {
             const response = await api.get<Match>(`/matches/${mid}`);
-            console.log(response.data);
-            
             return response.data;
         }
     })
@@ -34,7 +32,7 @@ export default function MatchDetail() {
                 </h1>
                 <div className="flex flex-col items-center gap-2 text-sm text-gray-600">
                     <span>{data.game === "single" ? "단판" : "3판 2선"}</span>
-                    <span>{formatTime(data.created_at)}</span>
+                    <span>{data.created_at && formatTime(data.created_at)}</span>
                     {data.referee && (<span>심판 {data.referee}</span>)}
                 </div>
             </div>
@@ -42,7 +40,7 @@ export default function MatchDetail() {
             <div className="flex flex-col md:flex-row gap-3 max-w-[720px] w-full">
                 <div className="flex-1 border border-gray-200 rounded-xl p-4 flex flex-col gap-2">
                     <p className="text-xl font-medium text-green-600">승리</p>
-                    {data.teams.filter(user => user.victory === 1).map(user => (
+                    {data.teams && data.teams.filter(user => user.victory === 1).map(user => (
                         <div key={user.uid} className="flex items-center gap-2">
                             <div className="w-7 h-7 rounded-full bg-green-50 flex items-center justify-center text-xs font-medium text-green-600">
                                 {user.name[0]}
@@ -54,7 +52,7 @@ export default function MatchDetail() {
 
                 <div className="flex-1 border border-gray-200 rounded-xl p-4 flex flex-col gap-2">
                     <p className="text-xl font-medium text-gray-500">패배</p>
-                    {data.teams.filter(user => user.victory === 0).map(user => (
+                    {data.teams && data.teams.filter(user => user.victory === 0).map(user => (
                         <div key={user.uid} className="flex items-center gap-2">
                             <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600">
                                 {user.name[0]}

@@ -5,7 +5,7 @@ import Loading from "../Loading";
 import { Landmark, MapPin, Phone, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -24,8 +24,6 @@ export default function Mypage() {
         queryKey: ['MyPage'],
         queryFn: async () => {
             const response = await api.get<MyPage>("/users/mypage");
-            console.log(response.data);
-            
             return response.data;
         },
         select: (data) => ({
@@ -44,7 +42,7 @@ export default function Mypage() {
     const { register, handleSubmit, reset } = useForm();
 
     const { mutate: editMutate } = useMutation({
-        mutationFn: async (data) => {
+        mutationFn: async (data: FieldValues) => {
             await api.post("/users/update", data);
         },
         onSuccess: (_, variables: any) => {
@@ -116,7 +114,7 @@ export default function Mypage() {
                                 <X size={18} />
                             </button>
                         </div>
-                        <form onSubmit={handleSubmit((d) => editMutate(d))} className="space-y-3">
+                        <form onSubmit={handleSubmit((d: FieldValues) => editMutate(d))} className="space-y-3">
                             {[
                                 { label: '이름', name: 'name' },
                                 { label: '주소', name: 'address' },

@@ -5,7 +5,7 @@ import type { GroupModal } from "../../types";
 import { toast } from "sonner";
 import Loading from "../Loading";
 
-export default function JoinGroupModal({ onClose }) {
+export default function JoinGroupModal({ onClose }: { onClose: () => void }) {
     const [code, setCode] = useState<string>('');
     const [searchCode, setSearchCode] = useState<string>('');
 

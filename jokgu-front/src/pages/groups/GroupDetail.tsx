@@ -41,7 +41,7 @@ export default function GroupDetail() {
     const { data: groupDetail, isLoading: groupDetailLoading } = useQuery({
         queryKey: ['groupDetail', gid],
         queryFn: async () => {
-            const response = await api.get<groupDetail>(`/groups/${gid}`);
+            const response = await api.get<groupDetail[]>(`/groups/${gid}`);
             return response.data[0];
         }
     });
@@ -76,7 +76,7 @@ export default function GroupDetail() {
         })
 
     const pasteCode = () => {
-        navigator.clipboard.writeText(groupDetail?.code);
+        navigator.clipboard.writeText(groupDetail?.code ?? "");
         setMenuOpen(false);
         toast.success("초대 코드가 복사되었어요", { style: { background: '#22c55e', color: 'white' } })
     }
