@@ -7,6 +7,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { LoginDto } from './dto/login.dto';
 import { UsersRepository } from './users.repository';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -90,4 +91,11 @@ export class UsersService {
       throw new InternalServerErrorException("서버 오류가 발생했습니다");
     }
   }
-}
+  async update(uid: number, dto: UpdateUserDto) {
+    try {
+      await this.userOrm.update(uid, dto);
+      return {message: "수정 완료"};
+    } catch (e) {
+      throw new BadRequestException("에러가 발생했습니다");
+    }
+}}
