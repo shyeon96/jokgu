@@ -1,0 +1,22 @@
+/* toast 성공 배경색 */
+.toastsuccess {
+    color: #22c55e;
+}
+
+/* toast fail */
+.toastfail {
+    color: #f43f5e;
+}
+/* 파랑 */
+.blue {
+    color: #3b82f6;
+}
+/* 인디고 */
+.indigo {
+    color: #6366f1;
+    /* 토스 */
+    color: #3182F6; 
+}
+.ember {
+    color: #f59e0b;
+}
