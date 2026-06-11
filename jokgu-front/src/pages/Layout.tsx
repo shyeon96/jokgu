@@ -32,7 +32,7 @@ export default function Layout() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50/40 flex flex-col">
+        <div className="min-h-dvh bg-gray-50/40 flex flex-col">
             {/* Sticky glassmorphism header */}
             <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-100/80">
                 <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
