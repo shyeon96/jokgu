@@ -8,7 +8,7 @@ export class UsersRepository {
 
     async findOne(uid: number) {
         const [result] = await this.dataSource.query(`
-            SELECT id AS uid, name, address, account, phone
+            SELECT id AS uid, name, address, account, phone, email
             FROM users
             WHERE id = ?
         `, [uid])

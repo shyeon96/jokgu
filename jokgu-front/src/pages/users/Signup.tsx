@@ -79,6 +79,14 @@ export default function Signup() {
                 </div>
 
                 <div className="flex flex-col gap-1">
+                    <label htmlFor="email" className="text-sm font-medium text-gray-600">이메일(권장)</label>
+                    <input id="email" type="email" {...register('email')} 
+                        placeholder="비밀번호 찾을때 이메일로 찾아요"
+                        className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#22c55e] transition"
+                        autoComplete="email"/>
+                </div>
+
+                <div className="flex flex-col gap-1">
                     <label htmlFor="address" className="text-sm font-medium text-gray-600">주소(선택)</label>
                     <input id="address" type="text" {...register('address')} placeholder="주소를 입력하세요"
                         className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#22c55e] transition" />

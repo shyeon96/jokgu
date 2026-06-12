@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpCode, Request, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Request, Put, Param, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
@@ -39,4 +39,15 @@ export class UsersController {
     return this.usersService.updatePwd(req.user.id, dto);
   }
 
+  @Public()
+  @Get('searchemail')
+  findEmailByUsername(@Query('username') username: string) {
+    return this.usersService.findEmailByUsername(username);
+  }
+
+  @Public()
+  @Post('sendresetcode')
+  sendResetCode(@Body('email') email: string) {
+    return this.usersService.sendResetCode(email);
+  }
 }

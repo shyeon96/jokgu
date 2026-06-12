@@ -17,6 +17,7 @@ import MatchDetail from './pages/matches/MatchDetail';
 import Layout from './pages/Layout';import { AnimatePresence } from 'framer-motion';
 import Mypage from './pages/users/Mypage';
 import UpdatePwd from './pages/users/UpdatePwd';
+import ResetPwd from './pages/users/ResetPwd';
 ;
 
 
@@ -30,6 +31,7 @@ export default function App() {
     <Routes location={location} key={location.pathname}>
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
+      <Route path='/resetpassword' element={<ResetPwd />} />
 
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/main" />} />

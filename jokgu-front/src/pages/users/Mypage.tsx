@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import api from "../../api/axios";
 import type { MyPage, PlanInfo } from "../../types";
 import Loading from "../Loading";
-import { Landmark, MapPin, MoreVertical, Phone, User, X } from "lucide-react";
+import { Landmark, Mail, MapPin, MoreVertical, Phone, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm, type FieldValues } from "react-hook-form";
@@ -76,6 +76,7 @@ export default function Mypage() {
     const openEditModal = () => {
         reset({
             name: data?.name,
+            email: data?.email,
             address: data?.address,
             account: data?.account,
             phone: data?.phone,
@@ -138,6 +139,7 @@ export default function Mypage() {
                         <form onSubmit={handleSubmit((d: FieldValues) => editMutate(d))} className="space-y-3">
                             {[
                                 { label: '이름', name: 'name' },
+                                { label: '이메일', name: 'email' },
                                 { label: '주소', name: 'address' },
                                 { label: '계좌', name: 'account' },
                                 { label: '전화번호', name: 'phone' },
@@ -191,6 +193,7 @@ export default function Mypage() {
                     <div className="border border-gray-300 rounded-xl px-4 md:max-w-sm">
                         {[
                             { icon: <User size={16} />, value: data.name },
+                            { icon: <Mail size={16} />, value: data.email },
                             { icon: <MapPin size={16} />, value: data.address },
                             { icon: <Landmark size={16} />, value: data.account },
                             { icon: <Phone size={16} />, value: data.phone },

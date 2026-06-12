@@ -8,10 +8,12 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
+import { MailModule } from 'src/mails/mails.module';
+import { PasswordReset } from './entities/password-reset.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, PasswordReset]),
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -19,7 +21,8 @@ import { UsersRepository } from './users.repository';
         secret: config.get('JWT_SECRET'),
         signOptions: { expiresIn: '1d' }
       })
-    })
+    }),
+    MailModule
   ],
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy, UsersRepository],

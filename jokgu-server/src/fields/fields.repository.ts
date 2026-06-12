@@ -13,12 +13,13 @@ export class FieldsRepository {
     }
 
     async countPlanTimes(fid: number) {
-        return await this.dataSource.query(`
+        const [result] = await this.dataSource.query(`
             SELECT COUNT(*) AS count
             FROM plans
             WHERE fields_id = ?
             AND date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
         `, [fid])
+        return result;
     }
 
     async findPlansByFid(uid: number, fid: number) {

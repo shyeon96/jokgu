@@ -9,15 +9,22 @@ import { LoginDto } from './dto/login.dto';
 import { UsersRepository } from './users.repository';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePwdDto } from './dto/update-pwd.dto';
+import { v4 } from 'uuid';
+import { PasswordReset } from './entities/password-reset.entity';
+import { MailService } from 'src/mails/mails.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersRepository: UsersRepository,
+    private readonly mailService: MailService,
 
     @InjectRepository(User)
-    private readonly userOrm: Repository<User>
+    private readonly userOrm: Repository<User>,
+
+    @InjectRepository(PasswordReset)
+    private readonly passwordResetOrm: Repository<PasswordReset>
   ) {}
 
   async signup(createUserDto: CreateUserDto) {
@@ -124,5 +131,31 @@ export class UsersService {
     } catch (e) {
       throw new BadRequestException("오류가 발생했습니다");
     }
+  }
+
+  async findEmailByUsername(username: string) {
+    const user = await this.userOrm.findOne({where: {username: username}});
+    if (!user || !user.email) throw new BadRequestException("아이디가 틀렸거나 등록된 이메일이 없어요");
+    return {email: user.email}
+  }
+
+  async sendResetCode(email: string) {    
+    const user = await this.userOrm.findOne({ where: { email } });
+    if (!user) throw new NotFoundException('해당 이메일로 가입된 계정이 없습니다');
+    console.log(user);
+    
+
+    const code = v4().replace(/-/g, '').substring(0, 8).toUpperCase();
+    const expired_at = new Date(Date.now() + 5*60*1000); // 5분
+
+    await this.passwordResetOrm.save({
+      user: {id: user.id},
+      code,
+      expired_at
+    })
+
+    await this.mailService.sendValidCode(email, code);
+
+    return {message: "인증코드가 발송되었습니다"}
   }
 }

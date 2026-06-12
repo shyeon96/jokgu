@@ -12,6 +12,7 @@ export interface SignupForm {
     username: string,
     password: string,
     name: string,
+    email: string,
     address: string,
     account: string,
     phone: string,
@@ -139,6 +140,7 @@ export interface MyPage {
     address: string,
     account: string,
     phone: string,
+    email: string,
     myplans: PlanInfo[],
     winrate: Winrate[],
     groupRatio: groupRatio[]

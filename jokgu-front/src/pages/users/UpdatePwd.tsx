@@ -3,7 +3,7 @@ import { useState } from "react"
 import { toast } from "sonner";
 import api from '../../api/axios';
 import Loading from "../Loading";
-import { Navigate, replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface UpdatePwdForm {
     currentPwd: string
@@ -66,7 +66,7 @@ export default function UpdatePwd() {
                     <label htmlFor="current" className="text-sm font-medium text-gray-600">
                         기존 비밀번호 입력
                     </label>
-                    <input id="current" type="password" value={currentPwd} autoComplete="current-password"
+                    <input id="current" type="password" value={currentPwd} autoComplete="current-password" minLength={3} maxLength={30}
                         onChange={(e) => setCurrentPwd(e.target.value)}
                         placeholder="기존 비밀번호를 입력하세요"
                         className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#3182F6] transition" />
@@ -76,7 +76,7 @@ export default function UpdatePwd() {
                     <label htmlFor="new" className="text-sm font-medium text-gray-600">
                         새 비밀번호 입력
                     </label>
-                    <input id="new" type="password" value={newPwd} autoComplete="new-password"
+                    <input id="new" type="password" value={newPwd} autoComplete="new-password" minLength={3} maxLength={30}
                         onChange={(e) => setNewPwd(e.target.value)}
                         placeholder="새 비밀번호를 입력하세요"
                         className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#3182F6] transition" />
@@ -89,10 +89,10 @@ export default function UpdatePwd() {
                     <label htmlFor="check" className="text-sm font-medium text-gray-600">
                         비밀번호 확인
                     </label>
-                    <input id="check" type="password" value={checkPwd} autoComplete="new-password"
+                    <input id="check" type="password" value={checkPwd} autoComplete="new-password" minLength={3} maxLength={30}
                         onChange={(e) => setCheckPwd(e.target.value)}
                         placeholder="새 비밀번호를 한번 더 입력하세요"
-                        className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#3182F6] transition"  />
+                        className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#3182F6] transition" />
                 </div>
     
                 <button type="submit" disabled={isPending}

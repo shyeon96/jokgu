@@ -47,8 +47,8 @@ export class FieldsService {
     }
 
     async findPlansByFid(uid: number, fid: number) {
-        const count = await this.fieldsRepository.countPlanTimes(fid);
+        const count = await this.fieldsRepository.countPlanTimes(fid);        
         const result = await this.fieldsRepository.findPlansByFid(uid, fid);
-        return {count, plans: result}
+        return {...count, plans: result}
     }
 }
