@@ -16,6 +16,7 @@ import MatchCreate from './pages/matches/MatchCreate';
 import MatchDetail from './pages/matches/MatchDetail';
 import Layout from './pages/Layout';import { AnimatePresence } from 'framer-motion';
 import Mypage from './pages/users/Mypage';
+import UpdatePwd from './pages/users/UpdatePwd';
 ;
 
 
@@ -33,7 +34,8 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/main" />} />
         <Route path="/main" element={<CheckToken><Main /></CheckToken>} />
-        <Route path='/Mypage' element={<CheckToken><Mypage /></CheckToken>}/>
+        <Route path='/mypage' element={<CheckToken><Mypage /></CheckToken>}/>
+        <Route path='/pwd' element={<CheckToken><UpdatePwd /></CheckToken>}/>
 
         <Route path="/fields" element={<CheckToken><FieldList /></CheckToken>} />
         <Route path='/fields/:fid' element={<CheckToken><FieldDetail /></CheckToken>} />

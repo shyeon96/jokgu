@@ -41,7 +41,7 @@ export default function Login() {
     if (token) return <Navigate to="/main" />;
     
     return (
-        <motion.div className="min-h-screen flex items-center justify-center bg-gray-50"
+        <motion.div className="min-h-dvh flex items-center justify-center bg-gray-50"
             initial={anime? {x: '-100%', opacity: 0}: false}
             animate={{x: 0, opacity: 1}}
             exit={anime ? {x:'-100%', opacity:0.3}: undefined}

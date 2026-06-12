@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import api from "../../api/axios";
 import type { MyPage, PlanInfo } from "../../types";
 import Loading from "../Loading";
-import { Landmark, MapPin, Phone, User, X } from "lucide-react";
+import { Landmark, MapPin, MoreVertical, Phone, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm, type FieldValues } from "react-hook-form";
@@ -14,6 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Mypage() {
 
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [editModal, setEditModal] = useState<boolean>(false);
     const [leaveModal, setLeaveModal] = useState<boolean>(false);
     const [showAll, setShowAll] = useState<boolean>(false);
@@ -43,7 +44,7 @@ export default function Mypage() {
 
     const { mutate: editMutate } = useMutation({
         mutationFn: async (data: FieldValues) => {
-            await api.post("/users/update", data);
+            await api.put("/users/update", data);
         },
         onSuccess: (_, variables: any) => {
             queryClient.invalidateQueries({ queryKey: ['MyPage'] })
@@ -98,9 +99,29 @@ export default function Mypage() {
         <div className="p-4 md:py-20">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-xl font-medium text-gray-900">마이페이지</h1>
-                <div className="flex gap-2">
-                    <button onClick={openEditModal} className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition cursor-pointer">수정</button>
-                    <button onClick={() => setLeaveModal(true)} className="px-3 py-1.5 text-sm border border-red-300 rounded-lg text-red-500 hover:bg-red-50 transition cursor-pointer">탈퇴</button>
+                <div className="relative">
+                    <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-lg hover:bg-gray-100 transition cursor-pointer">
+                        <MoreVertical className="w-5 h-5 text-gray-500" />
+                    </button>
+                    {menuOpen && (
+                        <>
+                            <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
+                            <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
+                                <button onClick={() => { openEditModal(); setMenuOpen(false); }}
+                                    className="w-full px-4 py-2.5 text-sm text-left text-gray-700 hover:bg-gray-50 rounded-t-xl transition cursor-pointer">
+                                    개인정보 수정
+                                </button>
+                                <button onClick={() => { navigate("/pwd") }}
+                                    className="w-full px-4 py-2.5 text-sm text-left text-gray-700 hover:bg-gray-50 rounded-t-xl transition cursor-pointer">
+                                    비밀번호 변경
+                                </button>
+                                <button onClick={() => { setLeaveModal(true); setMenuOpen(false); }}
+                                    className="w-full px-4 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 rounded-b-xl transition cursor-pointer">
+                                    회원 탈퇴
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -147,7 +168,7 @@ export default function Mypage() {
                     <div className="bg-white rounded-2xl p-5 w-80 shadow-xl space-y-4" onClick={(e) => e.stopPropagation()}>
                         <div>
                             <h2 className="text-base font-semibold text-slate-600">회원 탈퇴</h2>
-                            <p className="text-sm text-slate-400 mt-1">탈퇴 후 계정을 복구할 수 없습니다.</p>
+                            <p className="text-sm text-slate-400 mt-1">탈퇴 후 계정을 복구하려면 <br /> 카톡으로 말해주세요</p>
                         </div>
                         <div className="flex gap-2">
                             <button onClick={() => setLeaveModal(false)}

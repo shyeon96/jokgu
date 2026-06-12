@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { Public } from '../auth/public.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePwdDto } from './dto/update-pwd.dto';
 
 @Controller('users')
 export class UsersController {
@@ -31,6 +32,11 @@ export class UsersController {
   @Put('update')
   update(@Request() req, @Body() dto: UpdateUserDto) {
     return this.usersService.update(req.user.id, dto);
+  }
+
+  @Put('updatepwd')
+  updatePwd(@Request() req, @Body() dto: UpdatePwdDto) {
+    return this.usersService.updatePwd(req.user.id, dto);
   }
 
 }

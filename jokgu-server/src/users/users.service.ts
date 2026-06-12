@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { LoginDto } from './dto/login.dto';
 import { UsersRepository } from './users.repository';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePwdDto } from './dto/update-pwd.dto';
 
 @Injectable()
 export class UsersService {
@@ -91,6 +92,7 @@ export class UsersService {
       throw new InternalServerErrorException("서버 오류가 발생했습니다");
     }
   }
+
   async update(uid: number, dto: UpdateUserDto) {
     try {
       await this.userOrm.update(uid, dto);
@@ -98,4 +100,29 @@ export class UsersService {
     } catch (e) {
       throw new BadRequestException("에러가 발생했습니다");
     }
-}}
+  }
+  
+  async updatePwd(uid: number, dto: UpdatePwdDto) {
+    const {currentPwd, newPwd, checkPwd} = dto;
+    if (newPwd.trim().length === 0 || newPwd !== checkPwd) {
+      throw new BadRequestException("입력값이 올바르지 않습니다");
+    } else if (currentPwd === newPwd) {
+      throw new BadRequestException("입력값이 올바르지 않습니다");
+    }
+
+    // 현재 비밀번호가 일치하는지 확인후 변경
+    const user = await this.userOrm.findOne({where: {id: uid}});
+    if (!user) throw new BadRequestException('인증되지 않은 사용자입니다');
+
+    const isMatch = await bcrypt.compare(currentPwd, user.password);
+    if (!isMatch) throw new BadRequestException("현재 비밀번호가 다릅니다");
+
+    try {
+      const hashed = await bcrypt.hash(newPwd, 10);
+      await this.userOrm.update(uid, {password: hashed})
+      return {message: "비밀번호 변경 완료"}
+    } catch (e) {
+      throw new BadRequestException("오류가 발생했습니다");
+    }
+  }
+}
