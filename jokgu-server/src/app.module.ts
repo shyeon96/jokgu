@@ -13,10 +13,12 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt.guard';
 import { MainModule } from './main/main.module';
 import { ScoreModule } from './websocket/score.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({

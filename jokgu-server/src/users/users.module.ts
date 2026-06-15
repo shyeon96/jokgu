@@ -10,6 +10,7 @@ import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { MailModule } from 'src/mails/mails.module';
 import { PasswordReset } from './entities/password-reset.entity';
+import { CleanupService } from 'src/scheduler/code.cleanup.service';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { PasswordReset } from './entities/password-reset.entity';
     MailModule
   ],
   controllers: [UsersController],
-  providers: [UsersService, JwtStrategy, UsersRepository],
+  providers: [UsersService, JwtStrategy, UsersRepository, CleanupService],
   exports: [JwtModule]
 })
 export class UsersModule { }
