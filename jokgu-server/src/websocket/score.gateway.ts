@@ -11,7 +11,7 @@ interface ScoreData {
     bSetScore: number;
 }
 
-@WebSocketGateway({ cors: { origin: process.env.CORS_ORIGIN } })
+@WebSocketGateway({ cors: { origin: process.env.CORS_ORIGIN }, transports: ['websocket', 'polling'] })
 export class ScoreGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
     server: Server;
@@ -23,14 +23,14 @@ export class ScoreGateway implements OnGatewayConnection, OnGatewayDisconnect {
         console.log(`connected: ${client.id}`);
         const token = client.handshake.auth?.token;
         if (!token) {
-            console.log("토큰없는디?");
-            
             client.disconnect();
             return;
         }
+        console.log('token available');
         try {
             this.jwtService.verify(token);
         } catch (e) {
+            console.log('token disable');
             client.disconnect();
         }
     }

@@ -115,7 +115,7 @@ export default function MatchCreate() {
             auth: {
                 token: sessionStorage.getItem("token"),
             },
-            transports: ['websocket']
+            transports: ['polling', 'websocket']
         });
 
         socket.current.on('connect', () => {
