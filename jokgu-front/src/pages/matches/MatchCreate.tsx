@@ -114,13 +114,13 @@ export default function MatchCreate() {
         socket.current = io(import.meta.env.VITE_WEBSOCKET_URL, {
             auth: {
                 token: sessionStorage.getItem("token"),
-            }
+            },
+            transports: ['websocket']
         });
 
         socket.current.on('connect', () => {
             socket.current?.emit('join', String(pid));
         })
-
 
         return () => {
             socket.current?.emit('matchEnd', String(pid));

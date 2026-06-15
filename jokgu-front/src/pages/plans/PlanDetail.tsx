@@ -40,7 +40,8 @@ export default function PlanDetail() {
         socket.current = io(import.meta.env.VITE_WEBSOCKET_URL, {
             auth: {
                 token: sessionStorage.getItem('token')
-            }
+            },
+            transports: ['websocket']
         });
 
         socket.current.on('connect', () => {
