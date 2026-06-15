@@ -38,8 +38,7 @@ export default function PlanDetail() {
 
     useEffect(() => {
         const url = import.meta.env.VITE_WEBSOCKET_URL;
-        console.log(url);
-        socket.current = io(import.meta.env.VITE_WEBSOCKET_URL, {
+        socket.current = io(url, {
             auth: {
                 token: sessionStorage.getItem('token')
             },
@@ -47,6 +46,7 @@ export default function PlanDetail() {
         });
 
         socket.current.on('connect', () => {
+            console.log('pid:', pid);
             socket.current?.emit('join', String(pid));
         })
 
