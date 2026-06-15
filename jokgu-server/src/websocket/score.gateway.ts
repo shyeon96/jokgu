@@ -30,7 +30,9 @@ export class ScoreGateway implements OnGatewayConnection, OnGatewayDisconnect {
         try {
             this.jwtService.verify(token);
         } catch (e) {
-            console.log('token disable');
+            console.log('token: '+ token );
+            console.log(e.message);
+            
             client.disconnect();
         }
     }
