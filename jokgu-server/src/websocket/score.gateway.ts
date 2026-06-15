@@ -30,9 +30,6 @@ export class ScoreGateway implements OnGatewayConnection, OnGatewayDisconnect {
         try {
             this.jwtService.verify(token);
         } catch (e) {
-            console.log('token: '+ token );
-            console.log(e.message);
-            
             client.disconnect();
         }
     }
@@ -43,7 +40,6 @@ export class ScoreGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('join')
     handleJoin(@MessageBody() pid: string, @ConnectedSocket() client: Socket) {
-        console.log('join:', pid);
         client.rooms.forEach((room) => {
             if (room !== client.id) {
                 client.leave(room);

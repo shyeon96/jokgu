@@ -46,7 +46,6 @@ export default function PlanDetail() {
         });
 
         socket.current.on('connect', () => {
-            console.log('pid:', pid);
             socket.current?.emit('join', String(pid));
         })
 
