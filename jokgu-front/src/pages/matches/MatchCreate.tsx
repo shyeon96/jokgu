@@ -110,20 +110,17 @@ export default function MatchCreate() {
     }, [aScore, bScore, aSetScore, bSetScore, gameOption, currentSet, result, isDeuce, targetScore, serveStart]);
 
     useEffect(() => {
+        console.log('소켓 URL:', import.meta.env.VITE_WEBSOKET_URL);
         socket.current = io(import.meta.env.VITE_WEBSOKET_URL, {
             auth: {
                 token: sessionStorage.getItem("token"),
-            },
-            transports: ['polling', 'websocket']
+            }
         });
 
         socket.current.on('connect', () => {
             socket.current?.emit('join', String(pid));
         })
 
-        socket.current.on('connect_error', (err) => {
-            console.log('connect_error:', err.message);
-        });
 
         return () => {
             socket.current?.emit('matchEnd', String(pid));
