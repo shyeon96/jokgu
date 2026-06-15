@@ -111,7 +111,7 @@ export default function MatchCreate() {
 
     useEffect(() => {
         console.log('소켓 URL:', import.meta.env.VITE_WEBSOCKET_URL);
-        socket.current = io(import.meta.env.VITE_WEBSOKET_URL, {
+        socket.current = io(import.meta.env.VITE_WEBSOCKET_URL, {
             auth: {
                 token: sessionStorage.getItem("token"),
             }

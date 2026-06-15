@@ -37,7 +37,7 @@ export default function PlanDetail() {
     const [liveScore, setLiveScore] = useState<liveScore | null>(null);
 
     useEffect(() => {
-        socket.current = io(import.meta.env.VITE_WEBSOKET_URL, {
+        socket.current = io(import.meta.env.VITE_WEBSOCKET_URL, {
             auth: {
                 token: sessionStorage.getItem('token')
             }
