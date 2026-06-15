@@ -167,7 +167,7 @@ export class UsersService {
     if (validCode.code === code) {
       // 임시 jwt 토큰 발급
       const payload = { id: user.id, username: user.username };
-      const token = this.jwtService.sign(payload, {expiresIn: "1h"});
+      const token = this.jwtService.sign(payload, {expiresIn: "10m"});
       const name = user.name;
 
       await this.passwordResetOrm.update(validCode.id, {used: 1});
