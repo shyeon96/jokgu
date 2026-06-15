@@ -50,4 +50,15 @@ export class UsersController {
   sendResetCode(@Body('email') email: string) {
     return this.usersService.sendResetCode(email);
   }
+
+  @Public()
+  @Post('verifycode')
+  verifycode(@Body() data: {username: string, email: string, code: string}) {
+    return this.usersService.verifycode(data.username, data.email, data.code);
+  }
+
+  @Put('resetpassword')
+  resetPassword(@Request() req, @Body('password') password: string) {
+    return this.usersService.resetPassword(req.user.id, password);
+  }
 }

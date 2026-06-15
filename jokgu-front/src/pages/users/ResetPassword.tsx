@@ -1,35 +1,30 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react"
-import { toast } from "sonner";
-import api from '../../api/axios';
-import Loading from "../Loading";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axios";
+import { toast } from "sonner";
+import Loading from "../Loading";
 
-interface UpdatePwdForm {
-    currentPwd: string
-    newPwd: string
-    checkPwd: string
-}
-
-export default function UpdatePwd() {
+export default function ResetPassword () {
     const navigate = useNavigate();
 
-    const [currentPwd, setCurrentPwd] = useState<string>('');
     const [newPwd, setNewPwd] = useState<string>('');
     const [checkPwd, setCheckPwd] = useState<string>('');
 
     const { mutate, isPending } = useMutation({
-        mutationFn: async (data: UpdatePwdForm) => {
-            const response = await api.put('users/updatepwd', data);
+        mutationFn: async (password: string) => {
+            const response = await api.put('users/resetpassword', {password});
             return response.data;
         },
         onSuccess: () => {
-            toast.success("비밀번호가 변경되었습니다 다시 로그인 해주세요", {style: {background: '#22c55e', color: 'white'}});
+            toast.success("다시 로그인 해주세요", {style: {background: '#22c55e', color: 'white'}});
             sessionStorage.clear();
             navigate('/login', {replace: true})
         },
-        onError: (error) => {
-            toast.error(error.message, {style: {background: '#f43f5e', color: 'white'}})
+        onError: () => {
+            toast.error('오류가 발생했습니다 다시 시도해주세요', {style: {background: '#f43f5e', color: 'white'}});
+            sessionStorage.clear();
+            navigate('/verifycode', {replace: true});
         }
     })
 
@@ -56,20 +51,10 @@ export default function UpdatePwd() {
         <div className="flex items-center justify-center p-4 md:py-20">
             <form onSubmit={(e) => {
                     e.preventDefault();
-                    if (validPwd()) { mutate({ currentPwd, newPwd, checkPwd }); }
+                    if (validPwd()) { mutate(newPwd); }
                 }}
                 className="flex flex-col gap-4 w-full max-w-sm p-8 rounded-2xl" >
-                <h1 className="text-2xl font-bold text-center text-gray-800">비밀번호 변경</h1>
-    
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="current" className="text-sm font-medium text-gray-600">
-                        기존 비밀번호 입력
-                    </label>
-                    <input id="current" type="password" value={currentPwd} autoComplete="current-password" minLength={3} maxLength={30}
-                        onChange={(e) => setCurrentPwd(e.target.value)}
-                        placeholder="기존 비밀번호를 입력하세요"
-                        className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#3182F6] transition" />
-                </div>
+                <h1 className="text-2xl font-bold text-center text-gray-800">비밀번호 초기화</h1>
     
                 <div className="flex flex-col gap-1">
                     <label htmlFor="new" className="text-sm font-medium text-gray-600">
@@ -90,7 +75,7 @@ export default function UpdatePwd() {
                     </label>
                     <input id="check" type="password" value={checkPwd} autoComplete="new-password" minLength={3} maxLength={30}
                         onChange={(e) => setCheckPwd(e.target.value)}
-                        placeholder="새 비밀번호를 한번 더 입력하세요"
+                        placeholder="동일한 비밀번호를 입력"
                         className="border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#3182F6] transition" />
                 </div>
     

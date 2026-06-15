@@ -142,8 +142,6 @@ export class UsersService {
   async sendResetCode(email: string) {    
     const user = await this.userOrm.findOne({ where: { email } });
     if (!user) throw new NotFoundException('해당 이메일로 가입된 계정이 없습니다');
-    console.log(user);
-    
 
     const code = v4().replace(/-/g, '').substring(0, 8).toUpperCase();
     const expired_at = new Date(Date.now() + 5*60*1000); // 5분
@@ -157,5 +155,34 @@ export class UsersService {
     await this.mailService.sendValidCode(email, code);
 
     return {message: "인증코드가 발송되었습니다"}
+  }
+
+  async verifycode(username: string, email: string, code: string) {
+    const user = await this.userOrm.findOne({where: {username, email}});
+    if (!user) throw new BadRequestException("해당 유저를 찾을 수 없습니다");
+
+    const validCode = await this.usersRepository.findCodeByUser(user.id);
+    if (!validCode || validCode.used === 1) throw new BadRequestException("인증메일을 확인해주세요");
+
+    if (validCode.code === code) {
+      // 임시 jwt 토큰 발급
+      const payload = { id: user.id, username: user.username };
+      const token = this.jwtService.sign(payload, {expiresIn: "1h"});
+      const name = user.name;
+
+      await this.passwordResetOrm.update(validCode.id, {used: 1});
+      return {token, name}
+    }
+    throw new BadRequestException("오류가 발생했습니다");
+  }
+
+  async resetPassword(uid: number, password: string) {
+    if (password.trim().length < 3 || password.trim().length > 30) 
+        throw new BadRequestException('비밀번호는 3자이상 30자 이하만 사용할 수 있습니다');
+
+    const hashed = await bcrypt.hash(password, 10);
+    await this.userOrm.update(uid, { password: hashed });
+    
+    return { message: "비밀번호 재설정 완료" };
   }
 }

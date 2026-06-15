@@ -58,4 +58,16 @@ export class UsersRepository {
             LIMIT 4    
         `, [uid])
     }
+
+    async findCodeByUser(uid: number) {
+        const [ result ] = await this.dataSource.query(`
+            SELECT id, code
+            FROM password_reset
+            WHERE users_id = ? AND expired_at > NOW()
+            ORDER BY id DESC
+            LIMIT 1
+        `, [uid])
+
+        return result;
+    }
 }

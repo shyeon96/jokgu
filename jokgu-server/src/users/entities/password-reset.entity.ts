@@ -12,6 +12,9 @@ export class PasswordReset {
 
     @Column()
     code: string;
+    
+    @Column()
+    used: number;
 
     @Column({type: 'datetime'})
     expired_at: Date;

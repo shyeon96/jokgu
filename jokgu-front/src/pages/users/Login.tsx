@@ -72,7 +72,7 @@ export default function Login() {
                         처음이신가요?{' '}<Link to="/signup" state={{ fromLogin: true }} className="text-[#3182F6] font-bold hover:underline">즉시 회원가입</Link>
                     </p>
                     <p className="text-center text-sm text-gray-400">
-                        비밀번호를 잊으셨나요?{' '}<Link to="/resetpassword" className="text-[#3182F6] font-bold hover:underline">비밀번호 재설정</Link>
+                        비밀번호를 잊으셨나요?{' '}<Link to="/verifycode" className="text-[#3182F6] font-bold hover:underline">비밀번호 재설정</Link>
                     </p>
                 </div>
             </form>
