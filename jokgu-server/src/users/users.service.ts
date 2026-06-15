@@ -180,6 +180,12 @@ export class UsersService {
     if (password.trim().length < 3 || password.trim().length > 30) 
         throw new BadRequestException('비밀번호는 3자이상 30자 이하만 사용할 수 있습니다');
 
+    const user = await this.userOrm.findOne({where: {id: uid}});
+    if (!user) throw new BadRequestException('인증되지 않은 사용자입니다');
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) throw new BadRequestException("새 비밀번호는 기존 비밀번호와 달라야합니다");
+
     const hashed = await bcrypt.hash(password, 10);
     await this.userOrm.update(uid, { password: hashed });
     
