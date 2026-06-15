@@ -110,7 +110,8 @@ export default function MatchCreate() {
     }, [aScore, bScore, aSetScore, bSetScore, gameOption, currentSet, result, isDeuce, targetScore, serveStart]);
 
     useEffect(() => {
-        console.log('소켓 URL:', import.meta.env.VITE_WEBSOCKET_URL);
+        const url = import.meta.env.VITE_WEBSOCKET_URL;
+        console.log(url);
         socket.current = io(import.meta.env.VITE_WEBSOCKET_URL, {
             auth: {
                 token: sessionStorage.getItem("token"),
