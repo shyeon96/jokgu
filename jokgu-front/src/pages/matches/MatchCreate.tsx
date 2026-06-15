@@ -112,13 +112,18 @@ export default function MatchCreate() {
     useEffect(() => {
         socket.current = io(import.meta.env.VITE_WEBSOKET_URL, {
             auth: {
-                token: sessionStorage.getItem("token")
-            }
+                token: sessionStorage.getItem("token"),
+            },
+            transports: ['polling', 'websocket']
         });
 
         socket.current.on('connect', () => {
             socket.current?.emit('join', String(pid));
         })
+
+        socket.current.on('connect_error', (err) => {
+            console.log('connect_error:', err.message);
+        });
 
         return () => {
             socket.current?.emit('matchEnd', String(pid));
