@@ -23,6 +23,8 @@ export class ScoreGateway implements OnGatewayConnection, OnGatewayDisconnect {
         console.log(`connected: ${client.id}`);
         const token = client.handshake.auth?.token;
         if (!token) {
+            console.log("토큰없는디?");
+            
             client.disconnect();
             return;
         }
